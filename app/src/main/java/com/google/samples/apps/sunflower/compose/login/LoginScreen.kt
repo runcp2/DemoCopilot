@@ -16,7 +16,6 @@
 
 package com.google.samples.apps.sunflower.compose.login
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,8 +29,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -39,6 +36,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.samples.apps.sunflower.compose.SunflowerApp
+import com.google.samples.apps.sunflower.compose.dialog.MyAlertDialog
 import com.google.samples.apps.sunflower.viewmodels.LoginViewModel
 
 @Composable
@@ -60,16 +58,24 @@ fun LoginScreen(
 
 }
 
-@Preview
 @Composable
 private fun LoginPageScreen(navController: NavHostController) {
     val username = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
+    val showDialog = remember { mutableStateOf(false) }
+    if (showDialog.value) {
+        MyAlertDialog(
+            showDialog.value,
+            "Username and password is invalid",
+            onOKBtnClick = { showDialog.value = false },
+        )
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         OutlinedTextField(
             value = username.value,
             onValueChange = { username.value = it },
@@ -87,20 +93,23 @@ private fun LoginPageScreen(navController: NavHostController) {
                 .padding(16.dp)
         )
         Button(onClick = {
-            navController.navigate("home") {
-                popUpTo("login") {
-                    inclusive = true
+            // create logic check if username and password is valid or not
+            if (username.value.isEmpty() || password.value.isEmpty()) {
+                showDialog.value = true
+            } else {
+                navController.navigate("home") {
+                    popUpTo("login") {
+                        inclusive = true
+                    }
                 }
             }
-
         }) {
             Text("Login")
         }
         Button(modifier = Modifier
             .fillMaxWidth()
             .padding(30.dp, 20.dp), onClick = {
-            navController.navigate("signUp")
-            navController.clearBackStack("login")
+
         }) {
             Text("Sign Up")
         }
