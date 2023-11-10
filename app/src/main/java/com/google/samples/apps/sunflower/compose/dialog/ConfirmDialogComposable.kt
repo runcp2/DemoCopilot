@@ -16,6 +16,8 @@
 
 package com.google.samples.apps.sunflower.compose.dialog
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,7 +30,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -71,15 +75,15 @@ fun MyConfirmDialog(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .background(Color.White)
                 .padding(20.dp)
         ) {
             // Add a new cancel button on left side of the dialog.
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(200f)
-                    .padding(20.dp)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = title, modifier = Modifier.padding(20.dp))
                 Spacer(modifier = Modifier.width(20.dp))
@@ -88,9 +92,9 @@ fun MyConfirmDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 20.dp),
+                    horizontalArrangement = Arrangement.Center,
                 ) {
                     // Add a new divider between the buttons.
-                    Spacer(modifier = Modifier.weight(1f))
                     Button(onClick = { onCancelBtnClick() }) {
                         Text("Cancel")
                     }

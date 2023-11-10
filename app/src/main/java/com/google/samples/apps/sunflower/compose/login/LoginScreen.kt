@@ -37,6 +37,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.samples.apps.sunflower.compose.SunflowerApp
 import com.google.samples.apps.sunflower.compose.dialog.MyAlertDialog
+import com.google.samples.apps.sunflower.compose.dialog.confirmDialog
 import com.google.samples.apps.sunflower.viewmodels.LoginViewModel
 
 @Composable
@@ -64,11 +65,20 @@ private fun LoginPageScreen(navController: NavHostController) {
     val password = remember { mutableStateOf("") }
     val showDialog = remember { mutableStateOf(false) }
     if (showDialog.value) {
-        MyAlertDialog(
-            showDialog.value,
-            "Username and password is invalid",
-            onOKBtnClick = { showDialog.value = false },
-        )
+//        MyAlertDialog(
+//            showDialog.value,
+//            "Username and password is invalid",
+//            onOKBtnClick = { showDialog.value = false },
+//        )
+
+        confirmDialog(
+            isShow = showDialog.value,
+            title = "Confirm",
+            message = "Username and password is invalid",
+            onOKBtnClick = {
+            }) {
+
+        }
     }
     Column(
         modifier = Modifier.fillMaxSize(),
